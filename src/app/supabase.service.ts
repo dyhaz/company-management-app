@@ -9,8 +9,10 @@ import {
 import { environment } from '../environments/environment';
 
 export interface Profile {
-  username: string;
-  website: string;
+  first_name: string;
+  last_name: string;
+  position: string;
+  department: string;
   avatar_url: string;
 }
 
@@ -37,9 +39,11 @@ export class SupabaseService {
 
   get profile() {
     return this.supabase
-      .from('profiles')
-      .select(`username, website, avatar_url`)
-      .eq('id', this.user?.id)
+      .from('employee')
+      .select(`
+      *
+    `)
+      .eq('email', this.user?.email)
       .single();
   }
 
@@ -57,14 +61,62 @@ export class SupabaseService {
     return this.supabase.auth.signOut();
   }
 
-  updateProfile(profile: Profile) {
-    const update = {
-      ...profile,
-      id: this.user?.id,
-      updated_at: new Date(),
-    };
+  async updateProfile(profile: Profile) {
+    let update = {};
 
-    return this.supabase.from('profiles').upsert(update, {
+    // Check existing user
+    const existingUser = await this.supabase
+      .from('user')
+      .select(`
+      *
+    `)
+      .eq('uid', this.user?.id)
+      .single();
+
+    // Check existing employee
+    const existingEmployee = await this.supabase
+      .from('employee')
+      .select(`
+      *
+    `)
+      .eq('email', this.user?.email)
+      .single();
+
+    if (!existingUser?.data?.id) {
+      const { data, error } = await this.supabase
+        .from('user')
+        .upsert({
+          uid: this.user.id,
+          email: this.user.email,
+          username: this.user.email,
+          updated_at: new Date(),
+          password: 'Pass1234'
+        })
+        .eq('uid', this.user.id);
+
+      if (error) {
+        console.error('Error updating profile:', error);
+        return null;
+      }
+
+      update = {
+        ...profile,
+        id: existingEmployee?.data?.id,
+        email: this.user.email,
+        user_id: data[0].id,
+        updated_at: new Date(),
+      };
+    } else {
+      update = {
+        ...profile,
+        id: existingEmployee?.data?.id,
+        email: this.user.email,
+        user_id: existingUser?.data?.id,
+        updated_at: new Date(),
+      };
+    }
+
+    return this.supabase.from('employee').upsert(update, {
       returning: 'minimal', // Don't return the value after inserting
     });
   }

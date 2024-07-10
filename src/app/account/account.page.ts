@@ -9,9 +9,11 @@ import { Profile, SupabaseService } from '../supabase.service';
 })
 export class AccountPage implements OnInit {
   profile: Profile = {
-    username: '',
+    first_name: '',
+    last_name: '',
     avatar_url: '',
-    website: '',
+    position: '',
+    department: '',
   };
 
   session = this.supabase.session;

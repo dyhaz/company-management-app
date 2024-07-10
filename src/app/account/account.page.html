@@ -13,26 +13,45 @@
   <form>
     <ion-item>
       <ion-label position="stacked">Email</ion-label>
-      <ion-input type="email" [value]="session?.user?.email"></ion-input>
+      <ion-input readonly type="email" [value]="session?.user?.email"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Name</ion-label>
+      <ion-label position="stacked">First Name</ion-label>
       <ion-input
         type="text"
         name="username"
-        [(ngModel)]="profile.username"
+        [(ngModel)]="profile.first_name"
       ></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Website</ion-label>
+      <ion-label position="stacked">Last Name</ion-label>
       <ion-input
-        type="url"
-        name="website"
-        [(ngModel)]="profile.website"
+        type="text"
+        name="username"
+        [(ngModel)]="profile.last_name"
       ></ion-input>
     </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Position</ion-label>
+      <ion-input
+        type="url"
+        name="position"
+        [(ngModel)]="profile.position"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Department</ion-label>
+      <ion-input
+        type="url"
+        name="department"
+        [(ngModel)]="profile.department"
+      ></ion-input>
+    </ion-item>
+
     <div class="ion-text-center">
       <ion-button fill="clear" (click)="updateProfile()"
         >Update Profile</ion-button
