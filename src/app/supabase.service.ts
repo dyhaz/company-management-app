@@ -47,6 +47,39 @@ export class SupabaseService {
       .single();
   }
 
+  async listProfiles() {
+    const { data, error } = await this.supabase
+      .from('employee')
+      .select(`
+      *,
+      user:users (
+        email,
+        username
+      )
+    `);
+
+    if (error) {
+      console.error('Error listing profiles:', error);
+      return null;
+    }
+
+    return { data, error };
+  }
+
+  async deleteProfile(userId) {
+    const { data, error } = await this.supabase
+      .from('employee')
+      .delete()
+      .eq('user_id', userId);
+
+    if (error) {
+      console.error('Error deleting profile:', error);
+      return null;
+    }
+
+    return { data, error };
+  }
+
   authChanges(
     callback: (event: AuthChangeEvent, session: Session | null) => void
   ) {
@@ -59,6 +92,11 @@ export class SupabaseService {
 
   signOut() {
     return this.supabase.auth.signOut();
+  }
+
+  async createProfile(profileData: any) {
+    const { data, error } = await this.supabase.from('employee').insert([profileData]);
+    return { data, error };
   }
 
   async updateProfile(profile: Profile) {
