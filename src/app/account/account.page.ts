@@ -50,6 +50,8 @@ export class AccountPage implements OnInit {
     } catch (error) {
       await this.supabase.createNotice(error.message);
     }
+
+    this.router.navigate(['/home']);
   }
 
   async signOut() {
