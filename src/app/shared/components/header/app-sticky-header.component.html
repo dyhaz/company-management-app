@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-avatar>
+        <img src="{{ avatar ?? 'assets/images/avatars/5s.png' }}" alt="avatar">
+      </ion-avatar>
+    </ion-buttons>
+
+    <ion-title class="ion-text-center">
+      Welcome, {{ username }}
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="goToNotifications()" tappable>
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

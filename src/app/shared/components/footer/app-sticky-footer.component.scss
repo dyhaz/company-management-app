@@ -1,0 +1,11 @@
+.menu-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  --background: #ffffff; // Set the background to match your app's theme
+}
+
+// This ensures the tab bar is visible above any content that might scroll under it.
+ion-tab-bar {
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}

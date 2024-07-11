@@ -1,0 +1,16 @@
+ion-header {
+  position: sticky;
+  top: 0;
+  z-index: 10; // Ensure it is above other content
+  --background: #ffffff; // Customize your header background color
+}
+
+ion-toolbar {
+  --min-height: 50px; // Customize your toolbar height
+}
+
+ion-avatar img {
+  width: 40px; // Adjust the size as needed
+  height: 40px;
+  border-radius: 50%;
+}
