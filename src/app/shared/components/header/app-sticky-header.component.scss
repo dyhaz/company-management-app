@@ -9,6 +9,10 @@ ion-toolbar {
   --min-height: 50px; // Customize your toolbar height
 }
 
+ion-avatar {
+  display: contents;
+}
+
 ion-avatar img {
   width: 40px; // Adjust the size as needed
   height: 40px;

@@ -56,10 +56,10 @@ export class SupabaseService {
       .single();
   }
 
-  async resetPassword(email: string) {
+  async resetPassword(email: string, password: string = 'Pass1234') {
     return this.supabase.auth.update({
       email,
-      password: 'Pass1234'
+      password
     });
   }
 
