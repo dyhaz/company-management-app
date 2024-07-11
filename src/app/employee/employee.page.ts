@@ -4,7 +4,7 @@ import {SupabaseService} from '../supabase.service';
 @Component({
   selector: 'app-employee',
   templateUrl: 'employee.page.html',
-  styleUrls: [],
+  styleUrls: ['./employee.page.scss'],
 })
 export class EmployeePage implements OnInit {
   employees: any[] = [];
