@@ -17,24 +17,28 @@
     </ion-item>
   </ion-list>
 
-  <ion-item *ngIf="selectedEmployee">
-    <ion-label>
-      <ion-input [(ngModel)]="selectedEmployee.first_name" placeholder="First Name"></ion-input>
-      <ion-input [(ngModel)]="selectedEmployee.last_name" placeholder="Last Name"></ion-input>
-      <ion-input [(ngModel)]="selectedEmployee.position" placeholder="Position"></ion-input>
-      <ion-input [(ngModel)]="selectedEmployee.department" placeholder="Department"></ion-input>
-    </ion-label>
-    <ion-button>Update</ion-button>
-    <ion-button color="light" (click)="selectedEmployee = null">Cancel</ion-button>
-  </ion-item>
+  <form>
+    <ion-item *ngIf="selectedEmployee">
+      <ion-label>
+        <ion-input [(ngModel)]="selectedEmployee.first_name" name="first_name" placeholder="First Name"></ion-input>
+        <ion-input [(ngModel)]="selectedEmployee.last_name" name="last_name" placeholder="Last Name"></ion-input>
+        <ion-input [(ngModel)]="selectedEmployee.position" name="position" placeholder="Position"></ion-input>
+        <ion-input [(ngModel)]="selectedEmployee.department" name="department" placeholder="Department"></ion-input>
+      </ion-label>
+      <ion-button>Update</ion-button>
+      <ion-button color="light" (click)="selectedEmployee = null">Cancel</ion-button>
+    </ion-item>
+  </form>
 
-  <ion-item>
-    <ion-label>
-      <ion-input [(ngModel)]="newEmployee.first_name" placeholder="First Name"></ion-input>
-      <ion-input [(ngModel)]="newEmployee.last_name" placeholder="Last Name"></ion-input>
-      <ion-input [(ngModel)]="newEmployee.position" placeholder="Position"></ion-input>
-      <ion-input [(ngModel)]="newEmployee.department" placeholder="Department"></ion-input>
-    </ion-label>
-    <ion-button (click)="createProfile()">Create</ion-button>
-  </ion-item>
+  <form>
+    <ion-item>
+      <ion-label>
+        <ion-input [(ngModel)]="newEmployee.first_name" name="first_name" placeholder="First Name"></ion-input>
+        <ion-input [(ngModel)]="newEmployee.last_name" name="last_name" placeholder="Last Name"></ion-input>
+        <ion-input [(ngModel)]="newEmployee.position" name="position" placeholder="Position"></ion-input>
+        <ion-input [(ngModel)]="newEmployee.department" name="department" placeholder="Department"></ion-input>
+      </ion-label>
+      <ion-button (click)="createProfile()">Create</ion-button>
+    </ion-item>
+  </form>
 </ion-content>
