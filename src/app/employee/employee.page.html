@@ -50,6 +50,12 @@
       <ion-item>
         <ion-input [(ngModel)]="newEmployee.department" name="department" placeholder="Department"></ion-input>
       </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="newEmployee.salary" name="salary" placeholder="Salary" type="number"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="newEmployee.email" name="email" placeholder="Email Address"></ion-input>
+      </ion-item>
     </ion-label>
     <ion-button (click)="createProfile()">Create</ion-button>
   </form>

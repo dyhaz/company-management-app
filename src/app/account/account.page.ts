@@ -27,6 +27,8 @@ export class AccountPage implements OnInit {
   }
 
   async getProfile() {
+    const loader = await this.supabase.createLoader();
+    await loader.present();
     try {
       let { data: profile, error, status } = await this.supabase.profile;
       if (error && status !== 406) {
@@ -35,7 +37,9 @@ export class AccountPage implements OnInit {
       if (profile) {
         this.profile = profile;
       }
+      await loader.dismiss();
     } catch (error) {
+      await loader.dismiss();
       alert(error.message);
     }
   }
@@ -48,6 +52,7 @@ export class AccountPage implements OnInit {
       await loader.dismiss();
       await this.supabase.createNotice('Profile updated!');
     } catch (error) {
+      await loader.dismiss();
       await this.supabase.createNotice(error.message);
     }
 
