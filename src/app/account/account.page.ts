@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
-import { Profile, SupabaseService } from '../supabase.service';
+import { Profile, SupabaseService } from '../shared/services/supabase.service';
 
 @Component({
   selector: 'app-account',

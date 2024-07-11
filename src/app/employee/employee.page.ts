@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {SupabaseService} from '../supabase.service';
+import {SupabaseService} from '../shared/services/supabase.service';
 
 @Component({
   selector: 'app-employee',

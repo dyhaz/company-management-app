@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {SupabaseService} from '../../../supabase.service';
+import {SupabaseService} from '../../services/supabase.service';
 
 @Component({
   selector: 'app-sticky-header',

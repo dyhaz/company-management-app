@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { SupabaseService } from '../supabase.service';
+import { SupabaseService } from '../shared/services/supabase.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
 @Component({
   selector: 'app-avatar',

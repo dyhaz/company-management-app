@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
-import { SupabaseService } from './supabase.service';
+import { SupabaseService } from './shared/services/supabase.service';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +25,8 @@ export class AppComponent {
         // Get the current route
         const currentRoute = this.getCurrentRoute();
         this.currentPage = currentRoute;
+        this.showHeader = !currentRoute.includes('Login') && !currentRoute.includes('Register');
+        this.showFooter = !currentRoute.includes('Login') && !currentRoute.includes('Register');
         console.log('Current Route:', currentRoute);
       }
     });
