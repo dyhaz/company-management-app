@@ -34,26 +34,9 @@ export class AppComponent {
         username: this.supabase.user.email,
         id: 1
       });
-      const loader = await this.supabase.createLoader();
-      await loader.present();
-      try {
-        let { data: userDetail, error, status } = await this.supabase.userDetail;
-        if (error && status !== 406) {
-          throw error;
-        }
 
-        this.sessionService.updateUser({
-          uid: this.supabase.user.id,
-          email: this.supabase.user.email,
-          username: userDetail?.username ?? '',
-          id: userDetail?.id
-        });
-
-        await loader.dismiss();
-      } catch (error) {
-        await loader.dismiss();
-        await this.supabase.createNotice(error.message);
-      }
+      this.obtainUserSession();
+      this.obtainEmployeeSession();
 
       if (session?.user) {
         this.router.navigate(['/account']);
@@ -102,5 +85,52 @@ export class AppComponent {
       route = route.firstChild;
     }
     return route?.routeConfig?.component?.name ?? '';
+  }
+
+  private async obtainUserSession() {
+    const loader = await this.supabase.createLoader();
+    await loader.present();
+    try {
+      let { data: userDetail, error, status } = await this.supabase.userDetail;
+      if (error && status !== 406) {
+        throw error;
+      }
+
+      this.sessionService.updateUser({
+        uid: this.supabase.user.id,
+        email: this.supabase.user.email,
+        username: userDetail?.username ?? '',
+        id: userDetail?.id
+      });
+
+      await loader.dismiss();
+    } catch (error) {
+      await loader.dismiss();
+      await this.supabase.createNotice(error.message);
+    }
+  }
+
+  private async obtainEmployeeSession() {
+    const loader = await this.supabase.createLoader();
+    await loader.present();
+    try {
+      let { data: profile, error, status } = await this.supabase.profile;
+      if (error && status !== 406) {
+        throw error;
+      }
+
+      this.sessionService.updateEmployee({
+        avatar_url: profile.avatar_url,
+        department: profile.department,
+        last_name: profile.last_name,
+        first_name: profile.first_name,
+        position: profile.position,
+      });
+
+      await loader.dismiss();
+    } catch (error) {
+      await loader.dismiss();
+      await this.supabase.createNotice(error.message);
+    }
   }
 }

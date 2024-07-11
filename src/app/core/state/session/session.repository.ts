@@ -2,7 +2,7 @@ import { createStore, select, withProps } from '@ngneat/elf';
 import { Injectable } from '@angular/core';
 import { Session } from './session.interface';
 import { localStorageStrategy, persistState } from '@ngneat/elf-persist-state';
-import { User } from '../../../shared/entity/entity';
+import {Profile, User} from '../../../shared/entity/entity';
 
 interface SessionState {
   session: Session | undefined;
@@ -10,6 +10,10 @@ interface SessionState {
 
 interface UserState {
   currentUser: User | undefined;
+}
+
+interface EmployeeState {
+  employee: Profile;
 }
 
 const sessionStateInit: SessionState = {
@@ -20,9 +24,15 @@ const userStateInit: UserState = {
   currentUser: undefined,
 };
 
+const employeeStateInit: EmployeeState = {
+  employee: undefined,
+};
+
 const sessionStore = createStore({ name: 'session' }, withProps<SessionState>(sessionStateInit));
 
 const userStore = createStore({ name: 'currentUser' }, withProps<UserState>(userStateInit));
+
+const employeeStore = createStore({ name: 'employee' }, withProps<EmployeeState>(employeeStateInit));
 
 export const persist = persistState(sessionStore, {
   key: 'session',
@@ -31,6 +41,11 @@ export const persist = persistState(sessionStore, {
 
 export const persist2 = persistState(userStore, {
   key: 'currentUser',
+  storage: localStorageStrategy,
+});
+
+export const persist3 = persistState(userStore, {
+  key: 'employee',
   storage: localStorageStrategy,
 });
 
@@ -44,6 +59,8 @@ export class SessionRepository {
 
   user$ = userStore.pipe(select((state) => state.currentUser));
 
+  employee$ = employeeStore.pipe(select((state) => state.employee));
+
   isLoggedIn(): boolean {
     return Boolean(sessionStore.getValue().session?.accessToken);
   }
@@ -56,11 +73,19 @@ export class SessionRepository {
     return userStore.getValue().currentUser;
   }
 
+  employee() {
+    return employeeStore.getValue().employee;
+  }
+
   update(session: Partial<SessionState>) {
     sessionStore.update((state) => ({ ...state, ...session }));
   }
 
   updateUser(user: Partial<UserState>) {
     userStore.update((state) => ({ ...state, ...user }));
+  }
+
+  updateEmployee(employee: Partial<EmployeeState>) {
+    employeeStore.update((state) => ({ ...state, ...employee }));
   }
 }
