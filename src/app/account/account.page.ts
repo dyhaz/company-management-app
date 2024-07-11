@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
-import { Profile, SupabaseService } from '../shared/services/supabase.service';
+import { SupabaseService } from '../shared/services/supabase.service';
+import { Profile } from '../shared/entity/entity';
 
 @Component({
   selector: 'app-account',
@@ -40,7 +41,7 @@ export class AccountPage implements OnInit {
       await loader.dismiss();
     } catch (error) {
       await loader.dismiss();
-      alert(error.message);
+      await this.supabase.createNotice(error.message);
     }
   }
 

@@ -12,6 +12,7 @@ export class EmployeePage implements OnInit {
   selectedEmployee: any = null;
 
   constructor(
+    private readonly supabase: SupabaseService,
     private supabaseService: SupabaseService,
   ) {}
 
@@ -20,12 +21,15 @@ export class EmployeePage implements OnInit {
   }
 
   async getListEmployee() {
+    const loader = await this.supabase.createLoader();
+    await loader.present();
     const { data, error } = await this.supabaseService.listProfiles();
+    loader.dismiss();
 
     if (data) {
       this.employees = data;
     } else {
-      alert(error.message);
+      await this.supabase.createNotice(error.message);
     }
   }
 
@@ -35,7 +39,7 @@ export class EmployeePage implements OnInit {
       this.employees.push(data[0]);
       this.newEmployee = {};
     } else {
-      alert(error.message);
+      await this.supabase.createNotice(error.message);
       console.error('Error creating profile:', error);
     }
   }

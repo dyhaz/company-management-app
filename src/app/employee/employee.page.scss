@@ -1,27 +1,27 @@
 /* src/app/components/employees/employees.component.scss */
 
 ion-content {
-  --background: #f8f9fa;
+  --background: #121212;
   padding: 20px;
 }
 
 ion-item {
-  --border-color: #ddd;
-  --background: #fff;
+  --border-color: #333;
+  --background: #1e1e1e;
   border-radius: 8px;
   margin-bottom: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 ion-label {
   font-size: 1.1rem;
-  color: #333;
+  color: #ffffff;
 }
 
 ion-input {
   --padding-start: 0;
   --padding-end: 0;
-  --color: #495057;
+  --color: #e0e0e0;
 }
 
 ion-button {
@@ -29,16 +29,16 @@ ion-button {
 }
 
 ion-header {
-  --background: #007bff;
-  color: #fff;
+  --background: #333333;
+  color: #ffffff;
 }
 
 ion-toolbar {
-  --background: #007bff;
+  --background: #333333;
 }
 
 ion-title {
-  color: #fff;
+  color: #ffffff;
   font-size: 1.5rem;
   font-weight: bold;
 }
@@ -54,7 +54,7 @@ ion-button {
 ion-button[fill="outline"] {
   --border-color: #007bff;
   --color: #007bff;
-  --background: #fff;
+  --background: #1e1e1e;
 }
 
 ion-button[color="danger"] {
@@ -65,12 +65,12 @@ ion-button[color="danger"] {
 }
 
 ion-button[color="light"] {
-  --background: #f8f9fa;
-  --color: #333;
+  --background: #2e2e2e;
+  --color: #ffffff;
 }
 
 ion-list {
-  background: #f8f9fa;
+  background: #121212;
   margin-top: 20px;
 }
 
@@ -78,11 +78,11 @@ h2 {
   font-size: 1.2rem;
   font-weight: bold;
   margin: 0;
-  color: #333;
+  color: #ffffff;
 }
 
 p {
   font-size: 0.9rem;
-  color: #777;
+  color: #cccccc;
   margin: 5px 0 0;
 }

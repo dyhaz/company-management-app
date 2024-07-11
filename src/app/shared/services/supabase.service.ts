@@ -7,14 +7,9 @@ import {
   SupabaseClient,
 } from '@supabase/supabase-js';
 import { environment } from '../../../environments/environment';
+import { Profile } from '../entity/entity';
+import { SessionService } from '../../core/state/session/session.service';
 
-export interface Profile {
-  first_name: string;
-  last_name: string;
-  position: string;
-  department: string;
-  avatar_url: string;
-}
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +17,11 @@ export interface Profile {
 export class SupabaseService {
   private supabase: SupabaseClient;
 
-  constructor(private loadingCtrl: LoadingController, private toastCtrl: ToastController) {
+  constructor(
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
+    private sessionService: SessionService
+  ) {
     this.supabase = createClient(
       environment.supabaseUrl,
       environment.supabaseKey
@@ -40,6 +39,16 @@ export class SupabaseService {
   get profile() {
     return this.supabase
       .from('employee')
+      .select(`
+      *
+    `)
+      .eq('email', this.user?.email)
+      .single();
+  }
+
+  get userDetail() {
+    return this.supabase
+      .from('user')
       .select(`
       *
     `)

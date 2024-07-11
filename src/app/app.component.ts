@@ -1,6 +1,7 @@
-import {Component, ElementRef, Renderer2} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
+import { Component, ElementRef, Renderer2 } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { SupabaseService } from './shared/services/supabase.service';
+import { SessionService } from './core/state/session/session.service';
 
 @Component({
   selector: 'app-root',
@@ -14,12 +15,46 @@ export class AppComponent {
 
   constructor(
     private supabase: SupabaseService,
+    private sessionService: SessionService,
     private router: Router,
     private el: ElementRef,
     private renderer: Renderer2
   ) {
-    this.supabase.authChanges((_, session) => {
-      console.log(session);
+    this.supabase.authChanges(async (_, session) => {
+      console.log('session', session);
+
+      this.sessionService.updateSession({
+        accessToken: session.access_token,
+        tokenType: session.token_type
+      });
+
+      this.sessionService.updateUser({
+        uid: this.supabase.user.id,
+        email: this.supabase.user.email,
+        username: this.supabase.user.email,
+        id: 1
+      });
+      const loader = await this.supabase.createLoader();
+      await loader.present();
+      try {
+        let { data: userDetail, error, status } = await this.supabase.userDetail;
+        if (error && status !== 406) {
+          throw error;
+        }
+
+        this.sessionService.updateUser({
+          uid: this.supabase.user.id,
+          email: this.supabase.user.email,
+          username: userDetail?.username ?? '',
+          id: userDetail?.id
+        });
+
+        await loader.dismiss();
+      } catch (error) {
+        await loader.dismiss();
+        await this.supabase.createNotice(error.message);
+      }
+
       if (session?.user) {
         this.router.navigate(['/account']);
       }
