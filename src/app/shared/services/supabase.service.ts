@@ -47,6 +47,13 @@ export class SupabaseService {
       .single();
   }
 
+  async resetPassword(email: string) {
+    return this.supabase.auth.update({
+      email,
+      password: 'Pass1234'
+    });
+  }
+
   async listProfiles() {
     const { data, error } = await this.supabase
       .from('employee')

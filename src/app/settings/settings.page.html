@@ -1,0 +1,23 @@
+<!-- src/app/pages/settings/settings.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>My Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item button (click)="navigateTo('/account')">
+      <ion-icon slot="start" name="person-outline"></ion-icon>
+      <ion-label>Edit Profile</ion-label>
+    </ion-item>
+    <ion-item button (click)="resetPassword()">
+      <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+      <ion-label>Reset Password</ion-label>
+    </ion-item>
+    <ion-item button (click)="navigateTo('/support')">
+      <ion-icon slot="start" name="help-circle-outline"></ion-icon>
+      <ion-label>Support</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
