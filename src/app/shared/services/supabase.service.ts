@@ -82,11 +82,11 @@ export class SupabaseService {
     return { data, error };
   }
 
-  async deleteProfile(userId) {
+  async deleteProfile(id) {
     const { data, error } = await this.supabase
       .from('employee')
       .delete()
-      .eq('user_id', userId);
+      .eq('id', id);
 
     if (error) {
       console.error('Error deleting profile:', error);

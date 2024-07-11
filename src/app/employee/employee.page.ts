@@ -48,11 +48,12 @@ export class EmployeePage implements OnInit {
     this.selectedEmployee = { ...employee };
   }
 
-  async deleteProfile(userId: number) {
-    const { data, error } = await this.supabaseService.deleteProfile(userId);
+  async deleteProfile(id: number) {
+    const { data, error } = await this.supabaseService.deleteProfile(id);
     if (data) {
       this.getListEmployee();
     } else {
+      this.supabaseService.createNotice(error.message);
       console.error('Error deleting profile:', error);
     }
   }

@@ -12,8 +12,8 @@
         <h2>{{ employee.first_name }} {{ employee.last_name }}</h2>
         <p>{{ employee.position }} - {{ employee.department }}</p>
       </ion-label>
-      <ion-button (click)="selectEmployee(employee)">Edit</ion-button>
-      <ion-button color="danger" (click)="deleteProfile(employee.user_id)">Delete</ion-button>
+<!--      <ion-button (click)="selectEmployee(employee)">Edit</ion-button>-->
+      <ion-button color="danger" (click)="deleteProfile(employee.id)">Delete</ion-button>
     </ion-item>
   </ion-list>
 
