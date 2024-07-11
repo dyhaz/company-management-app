@@ -46,6 +46,7 @@ export class LoginPage implements OnInit {
     const { user, error } = await this.supabase.signInByPassword(this.loginIdentifier, this.password);
     await loader.dismiss();
     if (error) {
+      await this.supabase.createNotice(error.message);
       console.error('Login error:', error);
     } else {
       console.log('User logged in:', user);

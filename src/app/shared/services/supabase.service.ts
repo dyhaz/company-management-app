@@ -111,7 +111,13 @@ export class SupabaseService {
   }
 
   signOut() {
+    this.sessionService.logout();
     return this.supabase.auth.signOut();
+  }
+
+  // Refresh the session, update the auth state
+  async refresh() {
+    return this.supabase.auth.refreshSession();
   }
 
   async createProfile(profileData: any) {

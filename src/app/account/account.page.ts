@@ -57,6 +57,7 @@ export class AccountPage implements OnInit {
       await this.supabase.createNotice(error.message);
     }
 
+    this.supabase.refresh();
     this.router.navigate(['/home']);
   }
 
