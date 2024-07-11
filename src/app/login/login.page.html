@@ -7,22 +7,59 @@
 <ion-content>
   <div class="ion-padding">
     <h1>Supabase + Ionic Angular</h1>
-    <p>Sign in via magic link with your email below</p>
+    <p>Sign in with your email/username and password or via magic link</p>
   </div>
-    <ion-list inset="true">
-      <form (ngSubmit)="handleLogin($event)">
-        <ion-item>
-          <ion-label position="stacked">Email</ion-label>
-          <ion-input
-            [(ngModel)]="email"
-            name="email"
-            autocomplete
-            type="email"
-          ></ion-input>
-        </ion-item>
-        <div class="ion-text-center">
-          <ion-button type="submit" fill="clear">Login</ion-button>
-        </div>
-      </form>
-    </ion-list>
+
+  <ion-segment value="emailLogin" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="emailLogin">
+      <ion-label>Email/Username Login</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="magicLink">
+      <ion-label>Magic Link</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Email/Username and Password Login -->
+  <ion-list inset="true" *ngIf="selectedSegment === 'emailLogin'">
+    <form (ngSubmit)="handleEmailLogin($event)">
+      <ion-item>
+        <ion-label position="stacked">Email/Username</ion-label>
+        <ion-input
+          [(ngModel)]="loginIdentifier"
+          name="loginIdentifier"
+          autocomplete
+          type="text"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input
+          [(ngModel)]="password"
+          name="password"
+          type="password"
+        ></ion-input>
+      </ion-item>
+      <div class="ion-text-center">
+        <ion-button type="submit" fill="clear">Login</ion-button>
+      </div>
+    </form>
+  </ion-list>
+
+  <!-- Magic Link Login -->
+  <ion-list inset="true" *ngIf="selectedSegment === 'magicLink'">
+    <form (ngSubmit)="handleMagicLink($event)">
+      <ion-item>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input
+          [(ngModel)]="email"
+          name="email"
+          autocomplete
+          type="email"
+        ></ion-input>
+      </ion-item>
+      <div class="ion-text-center">
+        <ion-button type="submit" fill="clear">Send Magic Link</ion-button>
+      </div>
+    </form>
+  </ion-list>
 </ion-content>

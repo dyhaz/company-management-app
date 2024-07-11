@@ -90,6 +90,10 @@ export class SupabaseService {
     return this.supabase.auth.signIn({ email });
   }
 
+  signInByPassword(email, password) {
+    return this.supabase.auth.signIn({ email, password });
+  }
+
   signOut() {
     return this.supabase.auth.signOut();
   }
