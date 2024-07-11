@@ -52,7 +52,7 @@ export class SupabaseService {
       .from('employee')
       .select(`
       *,
-      user:users (
+      user:user (
         email,
         username
       )

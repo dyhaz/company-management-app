@@ -35,6 +35,7 @@ export class EmployeePage implements OnInit {
       this.employees.push(data[0]);
       this.newEmployee = {};
     } else {
+      alert(error.message);
       console.error('Error creating profile:', error);
     }
   }
