@@ -21,10 +21,11 @@ export class AppStickyHeaderComponent implements OnInit {
     private readonly dom: DomSanitizer
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     // Assume you have a service to get the logged-in user's details
     // You would inject the service and use it to set the username
-    this.username = this.supabase.user.id; // Replace with actual username
+    const user = await this.supabase.obtainUser();
+    this.username = user.id; // Replace with actual username
 
     this.configureHeader();
 

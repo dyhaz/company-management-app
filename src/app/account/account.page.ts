@@ -17,13 +17,14 @@ export class AccountPage implements OnInit {
     department: '',
   };
 
-  session = this.supabase.session;
+  session;
 
   constructor(
     private readonly supabase: SupabaseService,
     private router: Router
   ) {}
-  ngOnInit() {
+  async ngOnInit() {
+    this.session = await this.supabase.obtainSession();
     this.getProfile();
   }
 
@@ -31,7 +32,7 @@ export class AccountPage implements OnInit {
     const loader = await this.supabase.createLoader();
     await loader.present();
     try {
-      let { data: profile, error, status } = await this.supabase.profile;
+      const { data: profile, error, status } = await this.supabase.obtainProfile();
       if (error && status !== 406) {
         throw error;
       }

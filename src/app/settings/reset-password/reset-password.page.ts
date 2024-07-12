@@ -30,7 +30,8 @@ export class ResetPasswordPage {
   }
 
   async updatePassword() {
-    const email = this.supabaseService.user.email;
+    const user = await this.supabaseService.obtainUser();
+    const email = user.email;
 
     const alert = await this.alertController.create({
       header: 'Confirm Password Reset',

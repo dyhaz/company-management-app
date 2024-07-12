@@ -43,13 +43,13 @@ export class LoginPage implements OnInit {
     const loader = await this.supabase.createLoader();
     await loader.present();
     // Implement email/username and password login logic
-    const { user, error } = await this.supabase.signInByPassword(this.loginIdentifier, this.password);
+    const { data, error } = await this.supabase.signInByPassword(this.loginIdentifier, this.password);
     await loader.dismiss();
     if (error) {
       await this.supabase.createNotice(error.message);
       console.error('Login error:', error);
     } else {
-      console.log('User logged in:', user);
+      console.log('User logged in:', data?.user);
       this.router.navigate(['/home']);
     }
   }

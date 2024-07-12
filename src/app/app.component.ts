@@ -28,10 +28,12 @@ export class AppComponent {
         tokenType: session.token_type
       });
 
+      const user = await this.supabase.obtainUser();
+
       this.sessionService.updateUser({
-        uid: this.supabase.user.id,
-        email: this.supabase.user.email,
-        username: this.supabase.user.email,
+        uid: user.id,
+        email: user.email,
+        username: user.email,
         id: 1
       });
 
@@ -39,6 +41,7 @@ export class AppComponent {
       this.obtainEmployeeSession();
 
       if (session?.user) {
+        // TODO: add validation only redirect if previous page is login
         this.router.navigate(['/account']);
       }
     });
@@ -91,14 +94,16 @@ export class AppComponent {
     const loader = await this.supabase.createLoader();
     await loader.present();
     try {
-      let { data: userDetail, error, status } = await this.supabase.userDetail;
+      const { data: userDetail, error, status } = await this.supabase.obtainUserDetail();
       if (error && status !== 406) {
         throw error;
       }
 
+      const user = await this.supabase.obtainUser();
+
       this.sessionService.updateUser({
-        uid: this.supabase.user.id,
-        email: this.supabase.user.email,
+        uid: user.id,
+        email: user.email,
         username: userDetail?.username ?? '',
         id: userDetail?.id
       });
@@ -114,7 +119,7 @@ export class AppComponent {
     const loader = await this.supabase.createLoader();
     await loader.present();
     try {
-      let { data: profile, error, status } = await this.supabase.profile;
+      const { data: profile, error, status } = await this.supabase.obtainProfile();
       if (error && status !== 406) {
         throw error;
       }
