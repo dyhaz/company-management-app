@@ -29,29 +29,30 @@ export class SupabaseService {
   }
 
   async obtainUser(): Promise<UserResponse | any> {
-    return new Promise((resolve, reject) => {
-      this.supabase.auth.getUser().then((userResponse: UserResponse) => {
-        resolve(userResponse);
-      }).catch((error) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { data: { user } } = await this.supabase.auth.getUser();
+        resolve(user);
+      } catch (error) {
         console.error('Error fetching user:', error);
         reject(error);
-      });
+      }
     });
   }
 
   async obtainSession(): Promise<Session | any> {
-    return new Promise((resolve, reject) => {
-      this.supabase.auth.getSession().then((session: any) => {
-        const { data, error } = session;
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { data, error} = await this.supabase.auth.getSession();
         if (data) {
           resolve(data);
         } else {
           reject(error);
         }
-      }).catch((error) => {
+      } catch (error) {
         console.error('Error fetching session:', error);
         reject(error);
-      });
+      }
     });
   }
 
