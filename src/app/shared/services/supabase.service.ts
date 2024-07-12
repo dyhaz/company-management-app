@@ -4,7 +4,7 @@ import {
   AuthChangeEvent,
   createClient,
   Session,
-  SupabaseClient,
+  SupabaseClient, UserResponse,
 } from '@supabase/supabase-js';
 import { environment } from '../../../environments/environment';
 import { Profile } from '../entity/entity';
@@ -28,31 +28,42 @@ export class SupabaseService {
     );
   }
 
-  get user() {
-    return this.supabase.auth.getUser();
+  async obtainUser(): Promise<UserResponse | any> {
+    return this.supabase.auth.getUser().then((userResponse: UserResponse) => userResponse).catch((error) => {
+      console.error('Error fetching user:', error);
+      return null;
+    });
   }
 
-  get session() {
-    return this.supabase.auth.getSession();
+  async obtainSession(): Promise<Session | any> {
+    return this.supabase.auth.getSession().then((session: any) => {
+      const { data, error } = session;
+      return data ?? error;
+    }).catch((error) => {
+      console.error('Error fetching session:', error);
+      return null;
+    });
   }
 
-  get profile() {
+  async obtainProfile() {
+    const user = await this.obtainUser();
     return this.supabase
       .from('employee')
       .select(`
       *
     `)
-      .eq('email', this.user?.email)
+      .eq('email', user?.email)
       .single();
   }
 
-  get userDetail() {
+  async obtainUserDetail() {
+    const user = await this.obtainUser();
     return this.supabase
       .from('user')
       .select(`
       *
     `)
-      .eq('email', this.user?.email)
+      .eq('email', user?.email)
       .single();
   }
 
@@ -171,12 +182,13 @@ export class SupabaseService {
   }
 
   async createProfile(profileData: any) {
-    const { data, error } = await this.supabase.from('employee').insert([profileData]);
+    const { data, error } = await this.supabase.from('employee').insert([profileData]).select();
     return { data, error };
   }
 
   async updateProfile(profile: Profile) {
     let update = {};
+    const user = await this.obtainUser();
 
     // Check existing user
     const existingUser = await this.supabase
@@ -184,7 +196,7 @@ export class SupabaseService {
       .select(`
       *
     `)
-      .eq('uid', this.user?.id)
+      .eq('uid', user?.id)
       .single();
 
     // Check existing employee
@@ -193,38 +205,39 @@ export class SupabaseService {
       .select(`
       *
     `)
-      .eq('email', this.user?.email)
+      .eq('email', user?.email)
       .single();
 
     if (!existingUser?.data?.id) {
       const { data, error } = await this.supabase
         .from('user')
         .upsert({
-          uid: this.user.id,
-          email: this.user.email,
-          username: this.user.email,
+          uid: user.id,
+          email: user.email,
+          username: user.email,
           updated_at: new Date(),
           password: 'Pass1234'
         })
-        .eq('uid', this.user.id);
+        .eq('uid', user.id)
+        .select();
 
       if (error) {
         console.error('Error updating profile:', error);
         return null;
+      } else if (data) {
+        update = {
+          ...profile,
+          id: existingEmployee?.data?.id,
+          email: user.email,
+          user_id: data[0].id,
+          updated_at: new Date(),
+        };
       }
-
-      update = {
-        ...profile,
-        id: existingEmployee?.data?.id,
-        email: this.user.email,
-        user_id: data[0].id,
-        updated_at: new Date(),
-      };
     } else {
       update = {
         ...profile,
         id: existingEmployee?.data?.id,
-        email: this.user.email,
+        email: user?.email,
         user_id: existingUser?.data?.id,
         updated_at: new Date(),
       };
@@ -234,7 +247,7 @@ export class SupabaseService {
   }
 
   async createCompany(company: any) {
-    const { data, error } = await this.supabase.from('company').insert([company]);
+    const { data, error } = await this.supabase.from('company').insert([company]).select();
     return { data, error };
   }
 
