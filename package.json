@@ -37,7 +37,7 @@
     "@capacitor/status-bar": "1.0.8",
     "@ionic/angular": "^7.8.6",
     "@ionic/pwa-elements": "^3.1.1",
-    "@supabase/supabase-js": "^1.31.1",
+    "@supabase/supabase-js": "^2.44.3",
     "@ngneat/elf": "2.5.1",
     "@ngneat/elf-cli-ng": "1.0.0",
     "@ngneat/elf-entities": "5.0.2",

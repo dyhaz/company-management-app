@@ -29,11 +29,11 @@ export class SupabaseService {
   }
 
   get user() {
-    return this.supabase.auth.user();
+    return this.supabase.auth.getUser();
   }
 
   get session() {
-    return this.supabase.auth.session();
+    return this.supabase.auth.getSession();
   }
 
   get profile() {
@@ -56,11 +56,32 @@ export class SupabaseService {
       .single();
   }
 
-  async resetPassword(email: string, password: string = 'Pass1234') {
-    return this.supabase.auth.update({
-      email,
-      password
-    });
+  async reauthenticate() {
+    const { data, error } = await this.supabase.auth.reauthenticate();
+
+    if (error) {
+      console.error('Error reauthenticate:', error);
+      return null;
+    }
+
+    return { data, error };
+  }
+
+  async resetPassword(email: string, password: string = 'Pass1234', nonce?: string) {
+    let user;
+    if (nonce) {
+      user = {
+        email,
+        password,
+        nonce
+      };
+    } else {
+      user = {
+        email,
+        password
+      };
+    }
+    return this.supabase.auth.updateUser(user);
   }
 
   async listProfiles() {
@@ -132,11 +153,11 @@ export class SupabaseService {
   }
 
   signIn(email: string) {
-    return this.supabase.auth.signIn({ email });
+    return this.supabase.auth.signInWithOtp({ email });
   }
 
   signInByPassword(email, password) {
-    return this.supabase.auth.signIn({ email, password });
+    return this.supabase.auth.signInWithPassword({ email, password });
   }
 
   signOut() {
@@ -209,9 +230,7 @@ export class SupabaseService {
       };
     }
 
-    return this.supabase.from('employee').upsert(update, {
-      returning: 'minimal', // Don't return the value after inserting
-    });
+    return this.supabase.from('employee').upsert(update);
   }
 
   async createCompany(company: any) {
