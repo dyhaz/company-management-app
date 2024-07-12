@@ -1,0 +1,88 @@
+/* src/app/components/employees/employees.component.scss */
+
+ion-content {
+  --background: #121212;
+  padding: 20px;
+}
+
+ion-item {
+  --border-color: #333;
+  --background: #1e1e1e;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+ion-label {
+  font-size: 1.1rem;
+  color: #ffffff;
+}
+
+ion-input {
+  --padding-start: 0;
+  --padding-end: 0;
+  --color: #e0e0e0;
+}
+
+ion-button {
+  margin-left: 10px;
+}
+
+ion-header {
+  --background: #333333;
+  color: #ffffff;
+}
+
+ion-toolbar {
+  --background: #333333;
+}
+
+ion-title {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+ion-button {
+  --background: #007bff;
+  --background-activated: #0056b3;
+  --background-focused: #0056b3;
+  --background-hover: #0056b3;
+  border-radius: 20px;
+}
+
+ion-button[fill="outline"] {
+  --border-color: #007bff;
+  --color: #007bff;
+  --background: #1e1e1e;
+}
+
+ion-button[color="danger"] {
+  --background: #dc3545;
+  --background-activated: #c82333;
+  --background-focused: #c82333;
+  --background-hover: #c82333;
+}
+
+ion-button[color="light"] {
+  --background: #2e2e2e;
+  --color: #ffffff;
+}
+
+ion-list {
+  background: #121212;
+  margin-top: 20px;
+}
+
+h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+  color: #ffffff;
+}
+
+p {
+  font-size: 0.9rem;
+  color: #cccccc;
+  margin: 5px 0 0;
+}

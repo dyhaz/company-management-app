@@ -23,6 +23,11 @@ const routes: Routes = [
       import('./employee/employee.module').then((m) => m.EmployeePageModule),
   },
   {
+    path: 'company',
+    loadChildren: () =>
+      import('./company/company.module').then((m) => m.CompanyModule),
+  },
+  {
     path: 'settings',
     loadChildren: () =>
       import('./settings/settings.module').then((m) => m.SettingsModule),

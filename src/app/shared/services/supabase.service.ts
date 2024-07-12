@@ -96,6 +96,35 @@ export class SupabaseService {
     return { data, error };
   }
 
+  async listCompanies() {
+    const { data, error } = await this.supabase
+      .from('company')
+      .select(`
+      *
+    `);
+
+    if (error) {
+      console.error('Error listing company:', error);
+      return null;
+    }
+
+    return { data, error };
+  }
+
+  async deleteCompany(id) {
+    const { data, error } = await this.supabase
+      .from('company')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error deleting company:', error);
+      return null;
+    }
+
+    return { data, error };
+  }
+
   authChanges(
     callback: (event: AuthChangeEvent, session: Session | null) => void
   ) {
@@ -183,6 +212,11 @@ export class SupabaseService {
     return this.supabase.from('employee').upsert(update, {
       returning: 'minimal', // Don't return the value after inserting
     });
+  }
+
+  async createCompany(company: any) {
+    const { data, error } = await this.supabase.from('company').insert([company]);
+    return { data, error };
   }
 
   downLoadImage(path: string) {

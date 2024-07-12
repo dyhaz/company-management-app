@@ -13,7 +13,6 @@ export class EmployeePage implements OnInit {
 
   constructor(
     private readonly supabase: SupabaseService,
-    private supabaseService: SupabaseService,
   ) {}
 
   ngOnInit() {
@@ -23,7 +22,7 @@ export class EmployeePage implements OnInit {
   async getListEmployee() {
     const loader = await this.supabase.createLoader();
     await loader.present();
-    const { data, error } = await this.supabaseService.listProfiles();
+    const { data, error } = await this.supabase.listProfiles();
     loader.dismiss();
 
     if (data) {
@@ -34,7 +33,7 @@ export class EmployeePage implements OnInit {
   }
 
   async createProfile() {
-    const { data, error } = await this.supabaseService.createProfile(this.newEmployee);
+    const { data, error } = await this.supabase.createProfile(this.newEmployee);
     if (data) {
       this.employees.push(data[0]);
       this.newEmployee = {};
@@ -49,11 +48,11 @@ export class EmployeePage implements OnInit {
   }
 
   async deleteProfile(id: number) {
-    const { data, error } = await this.supabaseService.deleteProfile(id);
+    const { data, error } = await this.supabase.deleteProfile(id);
     if (data) {
       this.getListEmployee();
     } else {
-      this.supabaseService.createNotice(error.message);
+      this.supabase.createNotice(error.message);
       console.error('Error deleting profile:', error);
     }
   }
