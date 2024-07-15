@@ -31,22 +31,24 @@ export class AppComponent {
           tokenType: session.token_type
         });
 
-        const user = await this.supabase.obtainUser();
+        setTimeout(async () => {
+          const user = await this.supabase.obtainUser();
 
-        this.sessionService.updateUser({
-          uid: user.id,
-          email: user.email,
-          username: user.email,
-          id: 1
-        });
+          this.sessionService.updateUser({
+            uid: user.id,
+            email: user.email,
+            username: user.email,
+            id: 1
+          });
 
-        this.obtainUserSession();
-        this.obtainEmployeeSession();
+          this.obtainUserSession();
+          this.obtainEmployeeSession();
 
-        if (session?.user) {
-          // TODO: add validation only redirect if previous page is login
-          this.router.navigate(['/account']);
-        }
+          if (session?.user) {
+            // TODO: add validation only redirect if previous page is login
+            this.router.navigate(['/account']);
+          }
+        }, 100);
       }
     });
 
