@@ -44,7 +44,6 @@ export class ResetPasswordPage {
         {
           text: 'Confirm',
           handler: async () => {
-            await this.reauthenticate();
             const { error, data } = await this.supabaseService.resetPassword(email, this.confirmPassword);
             if (error) {
               const errorAlert = await this.alertController.create({
@@ -70,6 +69,7 @@ export class ResetPasswordPage {
     await alert.present();
   }
 
+  // Send OTP to user's email
   async reauthenticate() {
     const { error, data } = await this.supabaseService.reauthenticate();
 
