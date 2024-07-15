@@ -2,7 +2,6 @@ import { Component, ElementRef, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { SupabaseService } from './shared/services/supabase.service';
 import { SessionService } from './core/state/session/session.service';
-import {AuthChangeEvent} from "@supabase/gotrue-js/src/lib/types";
 
 @Component({
   selector: 'app-root',
