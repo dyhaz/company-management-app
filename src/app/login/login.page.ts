@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SupabaseService } from '../shared/services/supabase.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AlertController} from "@ionic/angular";
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginPage implements OnInit {
     private readonly supabase: SupabaseService,
     private router: Router,
     private alertController: AlertController,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sanitizer: DomSanitizer
   ) {}
 
   segmentChanged(event: any) {
@@ -33,7 +35,7 @@ export class LoginPage implements OnInit {
         if (errorDescription) {
           const errorAlert = await this.alertController.create({
             header: 'Error',
-            message: errorDescription,
+            message: this.sanitizer.sanitize(1, this.sanitizer.bypassSecurityTrustHtml(errorDescription)),
             buttons: ['OK'],
           });
           await errorAlert.present();
