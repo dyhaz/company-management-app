@@ -30,12 +30,14 @@ export class LoginPage implements OnInit {
       if (fragment) {
         const urlParams = new URLSearchParams(fragment);
         const errorDescription = urlParams.get('error_description');
-        const errorAlert = await this.alertController.create({
-          header: 'Error',
-          message: errorDescription,
-          buttons: ['OK'],
-        });
-        await errorAlert.present();
+        if (errorDescription) {
+          const errorAlert = await this.alertController.create({
+            header: 'Error',
+            message: errorDescription,
+            buttons: ['OK'],
+          });
+          await errorAlert.present();
+        }
       }
     });
   }
