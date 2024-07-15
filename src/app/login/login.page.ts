@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SupabaseService } from '../shared/services/supabase.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AlertController} from "@ionic/angular";
 
 @Component({
   selector: 'app-login',
@@ -15,14 +16,29 @@ export class LoginPage implements OnInit {
 
   constructor(
     private readonly supabase: SupabaseService,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController,
+    private route: ActivatedRoute
   ) {}
 
   segmentChanged(event: any) {
     this.selectedSegment = event.detail.value;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.fragment.subscribe(async (fragment) => {
+      if (fragment) {
+        const urlParams = new URLSearchParams(fragment);
+        const errorDescription = urlParams.get('error_description');
+        const errorAlert = await this.alertController.create({
+          header: 'Error',
+          message: errorDescription,
+          buttons: ['OK'],
+        });
+        await errorAlert.present();
+      }
+    });
+  }
 
   async handleMagicLink(event: any) {
     event.preventDefault();
