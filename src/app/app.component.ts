@@ -41,11 +41,10 @@ export class AppComponent {
             id: 1
           });
 
-          this.obtainUserSession();
-          this.obtainEmployeeSession();
+          this.updateUserSession();
+          this.updateEmployeeSession();
 
           if (session?.user) {
-            // TODO: add validation only redirect if previous page is login
             this.router.navigate(['/account']);
           }
         }, 100);
@@ -96,7 +95,7 @@ export class AppComponent {
     return route?.routeConfig?.component?.name ?? '';
   }
 
-  private async obtainUserSession() {
+  private async updateUserSession() {
     const loader = await this.supabase.createLoader();
     await loader.present();
     try {
@@ -121,7 +120,7 @@ export class AppComponent {
     }
   }
 
-  private async obtainEmployeeSession() {
+  private async updateEmployeeSession() {
     const loader = await this.supabase.createLoader();
     await loader.present();
     try {

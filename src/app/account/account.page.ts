@@ -17,7 +17,7 @@ export class AccountPage implements OnInit {
     department: '',
   };
 
-  session;
+  session: any;
 
   constructor(
     private readonly supabase: SupabaseService,

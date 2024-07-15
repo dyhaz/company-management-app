@@ -43,9 +43,9 @@ export class SupabaseService {
   async obtainSession(): Promise<Session | any> {
     return new Promise(async (resolve, reject) => {
       try {
-        const { data, error} = await this.supabase.auth.getSession();
-        if (data) {
-          resolve(data);
+        const { data: { session }, error} = await this.supabase.auth.getSession();
+        if (session) {
+          resolve(session);
         } else {
           reject(error);
         }
