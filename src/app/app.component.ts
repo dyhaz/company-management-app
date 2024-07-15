@@ -2,6 +2,7 @@ import { Component, ElementRef, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { SupabaseService } from './shared/services/supabase.service';
 import { SessionService } from './core/state/session/session.service';
+import {AuthChangeEvent} from "@supabase/gotrue-js/src/lib/types";
 
 @Component({
   selector: 'app-root',
@@ -21,28 +22,32 @@ export class AppComponent {
     private renderer: Renderer2
   ) {
     this.supabase.authChanges(async (_, session) => {
-      console.log('session', session);
+      console.log(_);
 
-      this.sessionService.updateSession({
-        accessToken: session.access_token,
-        tokenType: session.token_type
-      });
+      if (_ === 'SIGNED_IN') {
+        console.log('session', session);
 
-      const user = await this.supabase.obtainUser();
+        this.sessionService.updateSession({
+          accessToken: session.access_token,
+          tokenType: session.token_type
+        });
 
-      this.sessionService.updateUser({
-        uid: user.id,
-        email: user.email,
-        username: user.email,
-        id: 1
-      });
+        const user = await this.supabase.obtainUser();
 
-      this.obtainUserSession();
-      this.obtainEmployeeSession();
+        this.sessionService.updateUser({
+          uid: user.id,
+          email: user.email,
+          username: user.email,
+          id: 1
+        });
 
-      if (session?.user) {
-        // TODO: add validation only redirect if previous page is login
-        this.router.navigate(['/account']);
+        this.obtainUserSession();
+        this.obtainEmployeeSession();
+
+        if (session?.user) {
+          // TODO: add validation only redirect if previous page is login
+          this.router.navigate(['/account']);
+        }
       }
     });
 
