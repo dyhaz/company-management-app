@@ -67,7 +67,7 @@ export class AppComponent {
   fixScreenLayout() {
     setTimeout(() => {
       const el1 = this.el.nativeElement.querySelectorAll('.menu-footer'); // Ambil elemen menu-footer menggunakan ElementRef
-      const pageContentElements = ['app-employee', 'app-account', 'app-company'];
+      const pageContentElements = ['.ion-page'];
       const el2: any = [];
       pageContentElements.forEach((str) => {
         el2.push(this.el.nativeElement.querySelectorAll(str)); // Ambil elemen page-content menggunakan ElementRef
