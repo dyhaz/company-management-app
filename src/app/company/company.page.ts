@@ -47,7 +47,7 @@ export class CompanyPage implements OnInit {
     if (data) {
       this.getListCompany();
     } else {
-      this.supabase.createNotice(error.message);
+      this.supabase.createNotice(error?.message);
       console.error('Error deleting company:', error);
     }
   }

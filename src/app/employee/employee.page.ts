@@ -55,7 +55,7 @@ export class EmployeePage implements OnInit, OnDestroy {
     if (data) {
       this.getListEmployee();
     } else {
-      this.supabase.createNotice(error.message);
+      this.supabase.createNotice(error?.message);
       console.error('Error deleting profile:', error);
     }
   }
