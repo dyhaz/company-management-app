@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Add Company</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <form>
+    <ion-label>
+      <ion-item>
+        <ion-input [(ngModel)]="newCompany.name" name="name" placeholder="Name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="newCompany.address" name="address" placeholder="Address"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="newCompany.city" name="city" placeholder="City"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="newCompany.state" name="state" placeholder="State"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="newCompany.zip_code" name="zip_code" placeholder="ZIP Code"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="newCompany.country" name="country" placeholder="Country"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="newCompany.phone_number" name="phone_number" placeholder="Phone Number"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="newCompany.email" name="email" placeholder="Email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="newCompany.website" name="website" placeholder="Website"></ion-input>
+      </ion-item>
+    </ion-label>
+    <ion-button (click)="createCompany()">Create</ion-button>
+  </form>
+</ion-content>

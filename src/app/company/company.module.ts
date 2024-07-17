@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {CompanyPage} from './company.page';
 import {EmployeePageRoutingModule} from './company-routing.module';
+import {CompanyFormPage} from './company-form/company-form.page';
 
 @NgModule({
   imports: [
@@ -12,6 +13,6 @@ import {EmployeePageRoutingModule} from './company-routing.module';
     IonicModule,
     EmployeePageRoutingModule
   ],
-  declarations: [CompanyPage]
+  declarations: [CompanyPage, CompanyFormPage]
 })
 export class CompanyModule {}

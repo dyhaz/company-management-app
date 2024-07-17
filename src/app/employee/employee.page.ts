@@ -54,12 +54,12 @@ export class EmployeePage implements OnInit, OnDestroy {
 
   async deleteProfile(id: number) {
     const { data, error } = await this.supabase.deleteProfile(id);
-    if (data) {
-      this.getListEmployee();
-    } else {
+    if (error) {
       this.supabase.createNotice(error?.message);
       console.error('Error deleting profile:', error);
     }
+
+    this.eventService.emitEvent('loadEmployee', { message: true });
   }
 
   addNewEmployee() {
