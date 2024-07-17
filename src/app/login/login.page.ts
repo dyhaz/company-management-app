@@ -49,9 +49,14 @@ export class LoginPage implements OnInit {
     const loader = await this.supabase.createLoader();
     await loader.present();
     try {
-      await this.supabase.signIn(this.email);
+      const { data, error } = await this.supabase.signIn(this.email);
       await loader.dismiss();
-      await this.supabase.createNotice('Check your email for the login link!');
+
+      if (error) {
+        await this.supabase.createNotice(error.message);
+      } else {
+        await this.supabase.createNotice('Check your email for the login link!');
+      }
     } catch (error) {
       await loader.dismiss();
       await this.supabase.createNotice(error.error_description || error.message);
