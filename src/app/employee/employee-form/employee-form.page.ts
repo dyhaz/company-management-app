@@ -26,13 +26,13 @@ export class EmployeeFormPage implements OnInit {
     if (data) {
       // this.employees.push(data[0]);
       this.newEmployee = {};
+
+      this.eventService.emitEvent('loadEmployee', { message: true });
+      this.router.navigate(['/employee'], { replaceUrl: true });
     } else {
       await this.supabase.createNotice(error.message);
       console.error('Error creating profile:', error);
     }
-
-    this.eventService.emitEvent('loadEmployee', { message: true });
-    this.router.navigate(['/employee'], { replaceUrl: true });
   }
 
   selectEmployee(employee: any) {
