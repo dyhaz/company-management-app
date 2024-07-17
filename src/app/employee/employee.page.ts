@@ -1,22 +1,36 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SupabaseService} from '../shared/services/supabase.service';
+import {Subscription} from 'rxjs';
+import {EventService} from '../core/services/event/event.service';
 
 @Component({
   selector: 'app-employee',
   templateUrl: 'employee.page.html',
   styleUrls: ['./employee.page.scss'],
 })
-export class EmployeePage implements OnInit {
+export class EmployeePage implements OnInit, OnDestroy {
   employees: any[] = [];
-  newEmployee: any = {};
   selectedEmployee: any = null;
+  private eventSubscription: Subscription;
 
   constructor(
     private readonly supabase: SupabaseService,
+    private eventService: EventService
   ) {}
 
   ngOnInit() {
     this.getListEmployee();
+
+    this.eventSubscription = this.eventService.getEvents('loadEmployee').subscribe(event => {
+      if (event.message) {
+        // Reload list employee
+        this.getListEmployee();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.eventSubscription.unsubscribe();
   }
 
   async getListEmployee() {
@@ -29,17 +43,6 @@ export class EmployeePage implements OnInit {
       this.employees = data;
     } else {
       await this.supabase.createNotice(error.message);
-    }
-  }
-
-  async createProfile() {
-    const { data, error } = await this.supabase.createProfile(this.newEmployee);
-    if (data) {
-      this.employees.push(data[0]);
-      this.newEmployee = {};
-    } else {
-      await this.supabase.createNotice(error.message);
-      console.error('Error creating profile:', error);
     }
   }
 
