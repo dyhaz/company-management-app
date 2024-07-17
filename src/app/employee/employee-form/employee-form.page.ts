@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SupabaseService} from '../../shared/services/supabase.service';
 import {EventService} from '../../core/services/event/event.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-employee-form',
@@ -13,7 +14,8 @@ export class EmployeeFormPage implements OnInit {
 
   constructor(
     private readonly supabase: SupabaseService,
-    private eventService: EventService
+    private eventService: EventService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -30,6 +32,7 @@ export class EmployeeFormPage implements OnInit {
     }
 
     this.eventService.emitEvent('loadEmployee', { message: true });
+    this.router.navigate(['/employee'], { replaceUrl: true });
   }
 
   selectEmployee(employee: any) {

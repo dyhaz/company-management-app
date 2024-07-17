@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SupabaseService} from '../shared/services/supabase.service';
 import {Subscription} from 'rxjs';
 import {EventService} from '../core/services/event/event.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-employee',
@@ -15,7 +16,8 @@ export class EmployeePage implements OnInit, OnDestroy {
 
   constructor(
     private readonly supabase: SupabaseService,
-    private eventService: EventService
+    private eventService: EventService,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -58,5 +60,9 @@ export class EmployeePage implements OnInit, OnDestroy {
       this.supabase.createNotice(error?.message);
       console.error('Error deleting profile:', error);
     }
+  }
+
+  addNewEmployee() {
+    this.router.navigate(['/employee/add']);
   }
 }

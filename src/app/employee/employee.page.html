@@ -2,6 +2,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Employees</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="addNewEmployee()" tappable>
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -16,6 +22,4 @@
       <ion-button color="danger" (click)="deleteProfile(employee.id)">Delete</ion-button>
     </ion-item>
   </ion-list>
-
-  <app-employee-form></app-employee-form>
 </ion-content>
