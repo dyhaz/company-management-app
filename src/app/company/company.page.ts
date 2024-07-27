@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {SupabaseService} from '../shared/services/supabase.service';
-import {Router} from '@angular/router';
-import {EventService} from '../core/services/event/event.service';
-import {Subscription} from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { SupabaseService } from '../shared/services/supabase.service';
+import { Router } from '@angular/router';
+import { EventService } from '../core/services/event/event.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-company',
@@ -12,6 +12,9 @@ import {Subscription} from 'rxjs';
 export class CompanyPage implements OnInit, OnDestroy {
   companies: any[] = [];
   private eventSubscription: Subscription;
+  private offset = 0;
+  private limit = 20;
+  private hasMoreCompanies = true;
 
   constructor(
     private readonly supabase: SupabaseService,
@@ -20,12 +23,11 @@ export class CompanyPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.getListCompany();
+    this.loadCompanies();
 
     this.eventSubscription = this.eventService.getEvents('loadCompany').subscribe(event => {
       if (event.message) {
-        // Reload list employee
-        this.getListCompany();
+        this.resetCompanies();
       }
     });
   }
@@ -34,17 +36,34 @@ export class CompanyPage implements OnInit, OnDestroy {
     this.eventSubscription.unsubscribe();
   }
 
-  async getListCompany() {
-    const loader = await this.supabase.createLoader();
-    await loader.present();
-    const { data, error } = await this.supabase.listCompanies();
-    loader.dismiss();
+  async loadCompanies(event?: any) {
+    if (!this.hasMoreCompanies) {
+      if (event) {
+        event.target.complete();
+      }
+      return;
+    }
+
+    const { data, error } = await this.supabase.listCompanies(this.offset, this.limit);
 
     if (data) {
-      this.companies = data;
+      this.companies = this.companies.concat(data);
+      this.offset += this.limit;
+      this.hasMoreCompanies = data.length === this.limit;
     } else {
       await this.supabase.createNotice(error.message);
     }
+
+    if (event) {
+      event.target.complete();
+    }
+  }
+
+  async resetCompanies() {
+    this.offset = 0;
+    this.companies = [];
+    this.hasMoreCompanies = true;
+    await this.loadCompanies();
   }
 
   async delete(id: number) {
@@ -59,5 +78,9 @@ export class CompanyPage implements OnInit, OnDestroy {
 
   addNewCompany() {
     this.router.navigate(['/company/add']);
+  }
+
+  loadMore(event: any) {
+    this.loadCompanies(event);
   }
 }

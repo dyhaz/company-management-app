@@ -1,7 +1,6 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Company</ion-title>
-
     <ion-buttons slot="end">
       <ion-button (click)="addNewCompany()" tappable>
         <ion-icon slot="icon-only" name="add-outline"></ion-icon>
@@ -21,4 +20,11 @@
       <ion-button color="danger" (click)="delete(company.id)">Delete</ion-button>
     </ion-item>
   </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more companies...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

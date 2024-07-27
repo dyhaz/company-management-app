@@ -139,16 +139,15 @@ export class SupabaseService {
     return { data, error };
   }
 
-  async listCompanies() {
+  async listCompanies(offset: number, limit: number) {
     const { data, error } = await this.supabase
       .from('company')
-      .select(`
-      *
-    `);
+      .select('*')
+      .range(offset, offset + limit - 1);
 
     if (error) {
       console.error('Error listing company:', error);
-      return null;
+      return { data: null, error };
     }
 
     return { data, error };
