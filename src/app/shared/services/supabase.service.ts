@@ -106,7 +106,7 @@ export class SupabaseService {
     return this.supabase.auth.updateUser(user);
   }
 
-  async listProfiles() {
+  async listProfiles(offset: number, limit: number) {
     const { data, error } = await this.supabase
       .from('employee')
       .select(`
@@ -115,7 +115,8 @@ export class SupabaseService {
         email,
         username
       )
-    `);
+    `)
+    .range(offset, offset + limit - 1);
 
     if (error) {
       console.error('Error listing profiles:', error);

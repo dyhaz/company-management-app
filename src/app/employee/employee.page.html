@@ -22,4 +22,11 @@
       <ion-button color="danger" (click)="deleteProfile(employee.id)">Delete</ion-button>
     </ion-item>
   </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more employees...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

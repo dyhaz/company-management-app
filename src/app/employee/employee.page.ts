@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {SupabaseService} from '../shared/services/supabase.service';
-import {Subscription} from 'rxjs';
-import {EventService} from '../core/services/event/event.service';
-import {Router} from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { SupabaseService } from '../shared/services/supabase.service';
+import { Subscription } from 'rxjs';
+import { EventService } from '../core/services/event/event.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employee',
@@ -13,6 +13,9 @@ export class EmployeePage implements OnInit, OnDestroy {
   employees: any[] = [];
   selectedEmployee: any = null;
   private eventSubscription: Subscription;
+  private offset = 0;
+  private limit = 20;
+  private hasMoreEmployees = true;
 
   constructor(
     private readonly supabase: SupabaseService,
@@ -21,12 +24,11 @@ export class EmployeePage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.getListEmployee();
+    this.loadEmployees();
 
     this.eventSubscription = this.eventService.getEvents('loadEmployee').subscribe(event => {
       if (event.message) {
-        // Reload list employee
-        this.getListEmployee();
+        this.resetEmployees();
       }
     });
   }
@@ -35,17 +37,34 @@ export class EmployeePage implements OnInit, OnDestroy {
     this.eventSubscription.unsubscribe();
   }
 
-  async getListEmployee() {
-    const loader = await this.supabase.createLoader();
-    await loader.present();
-    const { data, error } = await this.supabase.listProfiles();
-    loader.dismiss();
+  async loadEmployees(event?: any) {
+    if (!this.hasMoreEmployees) {
+      if (event) {
+        event.target.complete();
+      }
+      return;
+    }
+
+    const { data, error } = await this.supabase.listProfiles(this.offset, this.limit);
 
     if (data) {
-      this.employees = data;
+      this.employees = this.employees.concat(data);
+      this.offset += this.limit;
+      this.hasMoreEmployees = data.length === this.limit;
     } else {
       await this.supabase.createNotice(error.message);
     }
+
+    if (event) {
+      event.target.complete();
+    }
+  }
+
+  async resetEmployees() {
+    this.offset = 0;
+    this.employees = [];
+    this.hasMoreEmployees = true;
+    await this.loadEmployees();
   }
 
   selectEmployee(employee: any) {
@@ -64,5 +83,9 @@ export class EmployeePage implements OnInit, OnDestroy {
 
   addNewEmployee() {
     this.router.navigate(['/employee/add']);
+  }
+
+  loadMore(event: any) {
+    this.loadEmployees(event);
   }
 }
